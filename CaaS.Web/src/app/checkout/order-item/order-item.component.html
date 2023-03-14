@@ -1,0 +1,14 @@
+<li class="p-3 border-bottom-1 surface-border flex align-items-start sm:align-items-center">
+    <img [src]="orderProduct.productImageUrl" class="w-3rem sm:w-8rem flex-shrink-0 mr-3 shadow-2" />
+    <div class="flex flex-column">
+        <span class="text-900 font-medium text-xl mb-2">{{orderProduct.productName}}</span>
+        <div class="flex flex-row">
+            <span class="text-900 font-medium mb-3" i18n="@@quantity">Quantity:</span>
+            &nbsp;
+            <span class="text-900 font-medium mb-3">{{orderProduct.quantity}}</span>
+        </div>
+        <a class="text-xs" href="{{orderProduct.productDownloadLink}}" target="_blank" i18n="@@download">Download
+            here</a>
+    </div>
+    <span class="text-900 font-medium text-lg ml-auto">{{orderProduct.price * orderProduct.quantity | currency}}</span>
+</li>

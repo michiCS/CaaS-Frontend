@@ -1,0 +1,12 @@
+<div class="surface-50 px-4 py-3 md:px-6 lg:px-8">
+    <div i18n="@@list-title" class="text-900 font-medium text-4xl mb-4">Products</div>
+    <caas-search placeHolder="Search Products" i18n-placeHolder="@@search-placeholder" (searchEvent)="searchProducts($event)" ></caas-search>
+    <div class="grid -mt-3 -ml-3 -mr-3">
+        <div class="col-12 md:col-4 lg:col-3 sm:col-6" *ngFor="let product of products">
+            <caas-product-list-item [product]="product" (addToCartEvent)="addProductToCart($event)"></caas-product-list-item>
+        </div>
+    </div>
+    <p-paginator [rows]="limit" [totalRecords]="totalCount" (onPageChange)="paginate($event)"></p-paginator>
+</div>
+<p-toast position="top-right"></p-toast>
+

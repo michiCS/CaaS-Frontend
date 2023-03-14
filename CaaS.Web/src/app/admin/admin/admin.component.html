@@ -1,0 +1,20 @@
+<p-tabView>
+    <p-tabPanel header="My Shop" leftIcon="pi pi-home" [selected]="true">
+       <caas-tenant-management></caas-tenant-management>
+    </p-tabPanel>
+    <p-tabPanel header="Discounts" leftIcon="pi pi-percentage">
+        <ng-template pTemplate="content">
+            <caas-discount-management></caas-discount-management>
+        </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="Products" leftIcon="pi pi-box">
+        <ng-template pTemplate="content">
+            <caas-product-management></caas-product-management>
+        </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="Statistics" leftIcon="pi pi-chart-bar">
+        <ng-template pTemplate="content">
+            <caas-statistics></caas-statistics>
+        </ng-template>
+    </p-tabPanel>
+</p-tabView>

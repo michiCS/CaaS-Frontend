@@ -1,0 +1,119 @@
+<div class="surface-50 px-4 py-2 md:px-6 lg:px-8">
+    <div class="grid -mr-3 -ml-3">
+        <div class="col-12 lg:col-6 p-4">
+            <div class="surface-card grid formgrid p-fluid border-round shadow-2 p-4">
+                <div class="col-12 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
+                    <div class="text-900 font-medium text-xl">Discount Rule</div>
+                </div>
+                <form class="grid w-full" #ruleForm="ngForm" (keydown.enter)="$event.preventDefault()">
+                    <div class="col-12 field mb-3">
+                        <p-dropdown name="selectedRule" (onChange)="loadActions(); setMinMaxDates()"
+                            (onClear)="resetRules()" id="discountRule" [(ngModel)]="selectedRule" [showClear]="true"
+                            [autoDisplayFirst]="false" [options]="discountRules" optionLabel="description"
+                            [filter]="true" class="w-full mb-3">
+                        </p-dropdown>
+                    </div>
+                    <div class="col-12 field mb-3">
+                        <label for="action" class="text-900 font-medium mb-3">Associated Action</label>
+                        <p-dropdown id="action" required name="action" [showClear]="true" [autoDisplayFirst]="false"
+                            [options]="discountActions" [(ngModel)]="selectedRule.actionId" optionValue="id"
+                            optionLabel="description" [filter]="true" class="w-full mb-3"></p-dropdown>
+                    </div>
+                    <div class="col-12 field mb-3">
+                        <label for="type" class="text-900 font-medium mb-3">Type</label>
+                        <p-dropdown id="type" required name="type" [options]="ruleTypes"
+                            [(ngModel)]="selectedRule.applicationType" optionValue="type" optionLabel="name"
+                            class="w-full mb-3"></p-dropdown>
+                    </div>
+                    <div class="col-12 field mb-3">
+                        <label for="minCartTotal" class="text-900 font-medium mb-3">Minimum Cart Total</label>
+                        <p-inputNumber id="minCartTotal" name="minCartTotal" class="w-full"
+                            [(ngModel)]="selectedRule.minCartTotal" mode="currency" currency="USD"
+                            [minFractionDigits]="2" [showButtons]="true" [min]="1"
+                            [disabled]="selectedRule.applicationType === 1">
+                        </p-inputNumber>
+                    </div>
+                    <div class="col-12 lg:col-6 field mb-3">
+                        <label for="product" class="text-900 font-medium mb-3">Product</label>
+                        <p-dropdown id="product" name="product" [showClear]="true" [autoDisplayFirst]="false"
+                            [options]="products" [(ngModel)]="selectedRule.productId" optionValue="id"
+                            optionLabel="name" [filter]="true" class="w-full mb-3" [required]="selectedRule.minQuantity"
+                            [disabled]="selectedRule.applicationType === 0"></p-dropdown>
+                    </div>
+                    <div class="col-12 lg:col-6 field mb-3">
+                        <label for="quantity" class="text-900 font-medium mb-3">Quantity</label>
+                        <p-inputNumber id="quantity" name="quantity" [(ngModel)]="selectedRule.minQuantity"
+                            mode="decimal" [showButtons]="true" [min]="1" [disabled]="!selectedRule.productId">
+                        </p-inputNumber>
+                    </div>
+                    <div class="col-12 lg:col-6 field mb-3">
+                        <label for="from" class="text-900 font-medium mb-3">From</label>
+                        <p-calendar id="from" name="from" (onSelect)="setMinMaxDates()"
+                            [(ngModel)]="selectedRule.dateFrom" dataType="string" dateFormat="yy-mm-dd"
+                            class="text-900 font-medium mb-3" [maxDate]="maxDate" [required]="selectedRule.dateTo">
+                        </p-calendar>
+                    </div>
+                    <div class="col-12 lg:col-6 field mb-3">
+                        <label for="to" class="text-900 font-medium mb-3">To</label>
+                        <p-calendar id="to" name="to" (onSelect)="setMinMaxDates()" [(ngModel)]="selectedRule.dateTo"
+                            dataType="string" dateFormat="yy-mm-dd" class="text-900 font-medium mb-3"
+                            [minDate]="minDate" [disabled]="!selectedRule.dateFrom"></p-calendar>
+                    </div>
+
+                    <div *ngIf="!selectedRule.id" class="col-12 field mb-3">
+                        <button (click)="createRule()" [disabled]="ruleForm.invalid" pButton class="p-button-primary"
+                            label="Create Rule" class="w-full mt-3"></button>
+                    </div>
+
+                    <div *ngIf="selectedRule.id" class="col-12 lg:col-6 field mb-3">
+                        <button (click)="deleteRule()" pButton pRipple class="p-button-danger w-full mt-3"
+                            label="Delete Rule"></button>
+                    </div>
+                    <div *ngIf="selectedRule.id" class="col-12 lg:col-6 field mb-3">
+                        <button (click)="updateRule()" [disabled]="ruleForm.invalid" pButton
+                            class="p-button-primary w-full mt-3" label="Update Rule"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-6 p-4">
+            <div class="surface-card grid formgrid p-fluid border-round shadow-2 p-4">
+                <div class="col-12 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
+                    <div class="text-900 font-medium text-xl">Discount Action</div>
+                </div>
+
+                <form class="grid w-full" #actionForm="ngForm" (keydown.enter)="$event.preventDefault()">
+                    <div class="col-12 field mb-3">
+                        <p-dropdown class="w-full mb-3" name="selectedAction" (onClear)="resetActions()"
+                            [showClear]="true" [autoDisplayFirst]="false" [options]="discountActions"
+                            [(ngModel)]="selectedAction" optionLabel="description" [filter]="true"></p-dropdown>
+                    </div>
+                    <div class="col-12 field mb-3">
+                        <p-inputNumber id="value" required name="value" [(ngModel)]="selectedAction.value"
+                            class="w-full" mode="decimal" [minFractionDigits]="2" [showButtons]="true" [min]="0.01">
+                        </p-inputNumber>
+                    </div>
+                    <div class="col-12 field-mb-3">
+                        <p-dropdown id="actionType" name="actionType" [(ngModel)]="selectedAction.actionType"
+                            [options]="actionTypes" optionValue="type" optionLabel="name" class="w-full mb-3">
+                        </p-dropdown>
+                    </div>
+                    <div *ngIf="!selectedAction.id" class="col-12 lg:col-6 field mb-3 w-full">
+                        <button (click)="createAction();" pButton pRipple class="p-button-primary mt-3"
+                            label="Create Action" [disabled]="actionForm.invalid"></button>
+                    </div>
+                    <div *ngIf="selectedAction.id" class="col-12 lg:col-6 field mb-3">
+                        <button (click)="deleteAction()" pButton pRipple class="p-button-danger mt-3"
+                            label="Delete Action"></button>
+                    </div>
+                    <div *ngIf="selectedAction.id" class="col-12 lg:col-6 field mb-3">
+                        <button (click)="updateAction()" pButton pRipple class="p-button-primary mt-3"
+                            label="Update Action" [disabled]="actionForm.invalid"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast position="top-right"></p-toast>

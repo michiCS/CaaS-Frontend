@@ -1,0 +1,23 @@
+<li class="flex flex-column md:flex-row py- border-top-1 border-bottom-1 surface-border md:align-items-center">
+    <img [src]="cartProduct.productImageUrl" class="w-12rem flex-shrink-0 mx-auto md:mx-0" />
+    <div class="flex-auto py-5 md:pl-5">
+        <div class="flex flex-wrap align-items-center sm:align-items-center sm:flex-row sm:justify-content-between surface-border pb-6">
+            <div class="w-full sm:w-6 flex flex-column align-items-center">
+                <span class="text-900 text-xl font-medium mb-3">{{cartProduct.productName}}</span>
+            </div>
+            <div class="w-full sm:w-6 flex align-items-center justify-content-between mt-3 sm:mt-0">
+                <div>
+                    <div class="p-field">
+                        <p-inputNumber [(ngModel)]="selectedQuantity" (focusout)="quantityChanged()" mode="decimal" [showButtons]="true" [min]="1">
+                        </p-inputNumber>
+                    </div>
+                </div>
+                <div class="flex flex-column sm:align-items-end">
+                    <span *ngIf="cartProduct.discount !== 0" class="text-600 text-l line-through font-medium mb-2 sm:mb-3">{{cartProduct.listPrice * cartProduct.quantity | currency}}</span>
+                    <span class="text-900 text-xl font-medium mb-2 sm:mb-3">{{cartProduct.price * cartProduct.quantity | currency}}</span>
+                    <a (click)="deleteFromCart()" class="cursor-pointer text-pink-500 font-medium text-sm hover:text-pink-600 transition-colors transition-duration-300" tabindex="0" i18n="@@remove">Remove</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

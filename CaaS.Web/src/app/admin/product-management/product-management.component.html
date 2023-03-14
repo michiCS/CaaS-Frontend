@@ -1,0 +1,67 @@
+<div class="surface-50 px-4 py-2 md:px-6 lg:px-8">
+    <div class="grid -mr-3 -ml-3">
+        <div class="col-12 lg:col-6 p-4">
+            <div class="surface-card grid formgrid p-fluid border-round shadow-2 p-4">
+                <div class="col-12 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
+                    <div class="text-900 font-medium text-xl">Product</div>
+                </div>
+
+                <form class="w-full" #productForm="ngForm" (keydown.enter)="$event.preventDefault()">
+                    <div class="col-12 field mb-3">
+                        <p-dropdown id="product" name="product" [showClear]="true" [autoDisplayFirst]="false"
+                            [options]="products" [(ngModel)]="selectedProduct" optionLabel="name" [filter]="true"
+                            (onClear)="selectedProduct = {}" class="w-full mb-3"></p-dropdown>
+                    </div>
+                    <div class="col-12 field mb-3">
+                        <label for="name" class="text-900 font-medium mb-3">Name</label>
+                        <input id="name" required type="text" name="name" pInputText
+                            [(ngModel)]="selectedProduct.name" />
+                    </div>
+                    <div class="col-12 field mb-3">
+                        <label for="price" class="text-900 font-medium mb-3">Price</label>
+                        <p-inputNumber id="price" required name="price" class="w-full"
+                            [(ngModel)]="selectedProduct.price" mode="currency" currency="USD" [minFractionDigits]="2"
+                            [showButtons]="true" [min]="0.01">
+                        </p-inputNumber>
+                    </div>
+                    <div class="col-12 field mb-3">
+                        <label for="description" class="text-900 font-medium mb-3">Description</label>
+                        <textarea id="description" required name="description" pInputTextarea
+                            [(ngModel)]="selectedProduct.description" [autoResize]="true" rows="8"></textarea>
+                    </div>
+                    <div class="col-12 field mb-3">
+                        <label for="imageUrl" class="text-900 font-medium mb-3">Image URL</label>
+                        <input type="text" required name="imageUrl" pInputText [(ngModel)]="selectedProduct.imageUrl"
+                            pattern="[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)" />
+                    </div>
+                    <div class="col-12 field mb-3">
+                        <label for="downloadLink" class="text-900 font-medium mb-3"
+                            pattern="[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)">Download
+                            Link</label>
+                        <input type="text" required name="downloadLink" pInputText
+                            [(ngModel)]="selectedProduct.downloadLink" />
+                    </div>
+
+                    <div *ngIf="!selectedProduct.id" class="col-12 field mb-3">
+                        <button (click)="createProduct(); productForm.resetForm({})" [disabled]="productForm.invalid"
+                            pButton class="p-button-primary" label="Create Product" class="w-full mt-3"></button>
+                    </div>
+                </form>
+
+                <div *ngIf="selectedProduct.id && !selectedProduct.isDeleted" class="col-12 lg:col-6 field mb-3">
+                    <button (click)="deleteProduct()" pButton pRipple class="p-button-danger w-full mt-3"
+                        label="Delete"></button>
+                </div>
+                <div *ngIf="selectedProduct.id && selectedProduct.isDeleted" class="col-12 lg:col-6 field mb-3">
+                    <button (click)="restoreProduct()" pButton pRipple class="p-button-warning w-full mt-3"
+                        label="Restore"></button>
+                </div>
+                <div *ngIf="selectedProduct.id" class="col-12 lg:col-6 field mb-3">
+                    <button (click)="updateProduct();" [disabled]="productForm.invalid" pButton
+                        class="p-button-primary w-full mt-3" label="Update"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast position="top-right"></p-toast>

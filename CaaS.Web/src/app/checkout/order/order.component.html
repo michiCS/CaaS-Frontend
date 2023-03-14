@@ -1,0 +1,53 @@
+<div class="surface-50 px-4 py-6 md:px-6 lg:px-8">
+    <div class="inline font-bold text-4xl my-2" i18n="@@successful-order">Successful Order</div>
+    <span class="inline text-4xl my-2"> 🚀</span>
+    <div style="height:3px;background:linear-gradient(90deg, #2196F3 0%, rgba(33, 150, 243, 0) 50%);"></div>
+
+    <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-around py-5">
+        <div class="mb-3 sm:mb-0">
+            <span class="font-medium text-xl text-900 mr-2" i18n="@@order-number">Order number:</span>
+            <span class="font-medium text-xl text-blue-500">{{order.id}}</span>
+        </div>
+        <div class="mb-3 sm:mb-0">
+            <span class="font-medium text-xl text-900 mr-2" i18n="@@order-date">Order date:</span>
+            <span class="font-medium text-xl text-blue-500">{{order.date | date:"yyyy-MM-dd"}}</span>
+        </div>
+    </div>
+    <div class="border-round surface-border border-1">
+        <ul class="list-none p-0 m-0">
+            <li class="caas-order-item" *ngFor="let orderProduct of order.orderProducts" [orderProduct]="orderProduct">
+            </li>
+        </ul>
+    </div>
+    <div class="flex flex-wrap mt-5 pb-3">
+        <div class="w-full lg:w-6 pl-3">
+            <span class="font-medium text-900" i18n="@@customer-info">Customer Info</span>
+            <div class="flex flex-column text-900 mt-3 mb-5">
+                <span class="mb-1">{{order.customerName}}</span>
+                <span class="mb-1">{{order.customerEmail}}</span>
+            </div>
+
+        </div>
+        <div class="w-full lg:w-6 pl-3 lg:pl-0 lg:pr-3 flex align-items-end mt-5 lg:mt-0">
+            <ul class="list-none p-0 m-0 w-full">
+                <li class="mb-3"><span class="font-medium text-900" i18n="@@summary">Summary</span></li>
+                <li class="flex justify-content-between mb-3">
+                    <span class="text-900" i18n="@@list-price">List Price</span>
+                    <span class="text-900 font-medium text-lg">{{order.listPrice | currency}}</span>
+                </li>
+                <li *ngIf="order.productDiscount !== 0" class="flex justify-content-between mb-3">
+                    <span class="text-900" i18n="@@product-discounts">Product Discounts</span>
+                    <span class="text-900 font-medium text-lg">{{order.productDiscount | currency}}</span>
+                </li>
+                <li *ngIf="order.cartDiscount !== 0" class="flex justify-content-between mb-3">
+                    <span class="text-900" i18n="@@cart-discount">Cart Discount</span>
+                    <span class="text-900 font-medium text-lg">{{order.cartDiscount | currency}}</span>
+                </li>
+                <li class="flex justify-content-between border-top-1 surface-border py-3">
+                    <span class="text-900 font-medium" i18n="@@total">Total</span>
+                    <span class="text-900 font-bold text-lg">{{order.total | currency}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<div *ngIf="!cart || cart.cartProducts.length === 0" class="text-900 py-4 text-4xl mb-4 font-medium text-center"
+    i18n="@@empty-cart">Your cart is empty!</div>
+<div *ngIf="cart && cart.cartProducts.length !== 0" class="surface-50 px-4 py-4 md:px-6 lg:px-8">
+    <ul class="list-none p-0 m-0">
+        <li class="caas-cart-item" *ngFor="let cartProduct of cart.cartProducts" [cartProduct]="cartProduct"
+            (updateQuantityEvent)="updateQuantity($event)" (deleteFromCartEvent)="deleteCartProduct($event)">
+        </li>
+    </ul>
+    <div class="flex">
+        <div class="w-12rem hidden md:block"></div>
+        <ul class="list-none py-0 pr-0 pl-0 md:pl-5 mt-6 mx-0 mb-0 flex-auto">
+            <li class="flex justify-content-between mb-4">
+                <span class="text-xl text-900" i18n="@@list-price">List Price</span>
+                <span class="text-xl text-900">{{cart.listPrice | currency}}</span>
+            </li>
+            <li *ngIf="cart.productDiscount !== 0" class="flex justify-content-between mb-4">
+                <span class="text-xl text-900" i18n="@@product-discounts">Product Discounts</span>
+                <span class="text-xl text-900">{{cart.productDiscount | currency}}</span>
+            </li>
+            <li *ngIf="cart.cartDiscount !== 0" class="flex justify-content-between mb-4">
+                <span class="text-xl text-900" i18n="@@cart-discount">Cart Discount</span>
+                <span class="text-xl text-900">{{cart.cartDiscount | currency}}</span>
+            </li>
+            <li class="flex justify-content-between border-top-1 surface-border mb-4 pt-4">
+                <span class="text-xl text-900 font-bold text-3xl" i18n="@@total">Total</span>
+                <span class="text-xl text-900 font-bold text-3xl">{{cart.total | currency}}</span>
+            </li>
+            <li class="flex justify-content-end">
+                <button (click)="clearCart()" pButton pRipple class="p-button-danger mr-8" label="Clear Cart"
+                    i18n-label="@@clear-cart-button-label"></button>
+                <button (click)="navigateToCheckout()" pButton pRipple label="Check Out"
+                    i18n-label="@@checkout-button-label"></button>
+            </li>
+        </ul>
+    </div>
+</div>

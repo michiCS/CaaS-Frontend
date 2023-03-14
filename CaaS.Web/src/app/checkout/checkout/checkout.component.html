@@ -1,0 +1,66 @@
+<div class="surface-50 px-4 py-4 md:px-6 lg:px-8">
+    <div class="grid -mr-3 -ml-3">
+        <div class="col-12 lg:col-6 p-4">
+            <div class="surface-card grid formgrid p-fluid border-round shadow-2 p-4">
+                <form #customerForm="ngForm" class="grid formgrid p-fluid">
+                    <div class="field mb-3 col-12">
+                        <label class="font-medium text-900">Email</label>
+                        <input name="email" required [(ngModel)]="customer.email" type="text" pInputText
+                            pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
+                    </div>
+                    <div *ngIf="!alreadyCustomer" class="field mb-3 col-12">
+                        <label class="font-medium text-900">Name</label>
+                        <input name="name" [(ngModel)]="customer.name" type="text" pInputText
+                            required="alreadyCustomer">
+                    </div>
+                    <div class="col-12 field-mb3">
+                        <div class="p-field-checkbox">
+                            <label for="alreadyCustomer" class="text-900 font-medium mr-3"
+                                i18n="@@alreadyCustomer">Already Customer?</label>
+                            <p-checkbox name="alreadyCustomer" [(ngModel)]="alreadyCustomer" [binary]="true">
+                            </p-checkbox>
+                        </div>
+                    </div>
+                    <div class="field my-3 col-12">
+                        <button (click)="checkout()" pButton pRipple label="Check Out" class="w-auto mt-3"
+                            i18n-label="@@checkout-button-label" [disabled]="customerForm.invalid || !cart"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 p-4">
+            <div class="surface-card border-round shadow-2 p-5">
+                <div class="flex justify-content-between align-items-center border-bottom-1 pb-3 surface-border">
+                    <span class="text-900 font-medium text-lg lg:text-xl" i18n="@@your-cart">Your Cart</span>
+                </div>
+                <ul *ngIf="cart !== undefined" class="list-none p-0 m-0">
+                    <li class="caas-checkout-item" *ngFor="let cartProduct of cart.cartProducts"
+                        [cartProduct]="cartProduct">
+                    </li>
+                </ul>
+                <div class="w-full pl-3 lg:pl-0 lg:pr-3 flex align-items-end mt-3">
+                    <ul class="list-none p-0 m-0 w-full">
+                        <li class="mb-3"><span class="font-medium text-900" i18n="@@summary">Summary</span></li>
+                        <li class="flex justify-content-between mb-3">
+                            <span class="text-900" i18n="@@list-price">List Price</span>
+                            <span class="text-900 font-medium text-lg">{{cart.listPrice | currency}}</span>
+                        </li>
+                        <li *ngIf="cart.productDiscount !== 0" class="flex justify-content-between mb-3">
+                            <span class="text-900" i18n="@@product-discounts">Product Discounts</span>
+                            <span class="text-900 font-medium text-lg">{{cart.productDiscount | currency}}</span>
+                        </li>
+                        <li *ngIf="cart.cartDiscount !== 0" class="flex justify-content-between mb-3">
+                            <span class="text-900" i18n="@@cart-discount">Cart Discount</span>
+                            <span class="text-900 font-medium text-lg">{{cart.cartDiscount | currency}}</span>
+                        </li>
+                        <li class="flex justify-content-between border-top-1 surface-border py-3">
+                            <span class="text-900 font-medium" i18n="@@total">Total</span>
+                            <span class="text-900 font-bold text-lg">{{cart.total | currency}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast position="top-right"></p-toast>
